@@ -181,6 +181,12 @@ exports.unionPay = new Type('UnionPay', {
   luhn: false
 })
 
+exports.vegas = new Type('VegasCard', {
+  pattern: /^(6048402\d{9})|(606320\d{10})$/,
+  eagerPattern: /^6048402|606320/,
+  groupPattern: group19
+})
+
 },{"./type":5}],7:[function(_dereq_,module,exports){
 'use strict'
 
@@ -858,6 +864,14 @@ function factory ($parse, $timeout) {
           ngModel.$ccType = ccNumber.type = card.type(number)
         })
 		
+		$element.on('click input paste keyup', function($event) {
+              $timeout(function() {
+                  $event.target.selectionStart = $event.target.value.length;
+                  $event.target.selectionEnd = $event.target.value.length;
+                  $scope.$apply();
+              }, 100);
+        })
+
 		$element.on('click input paste keyup', function($event) {
               $timeout(function() {
                   $event.target.selectionStart = $event.target.value.length;
